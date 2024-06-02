@@ -1,0 +1,66 @@
+import tkinter as tk
+from tkinter import messagebox
+from virus_invasion_game import VirusInvasion
+
+class LoginForm(tk.Tk):
+    def __init__(self):
+        super().__init__()
+
+        self.title("Login")
+        self.geometry("400x200")
+        self.configure(bg="#f0f0f0")
+
+        self.create_widgets()
+        self.layout_widgets()
+
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(2, weight=1)
+
+        self.protocol("WM_DELETE_WINDOW", self.close_window)
+
+    def create_widgets(self):
+        self.username_label = tk.Label(self, text="Email or Phone", font=("Helvetica", 12), bg="#f0f0f0")
+        self.password_label = tk.Label(self, text="Password", font=("Helvetica", 12), bg="#f0f0f0")
+
+        self.username_entry = tk.Entry(self, font=("Helvetica", 12))
+        self.password_entry = tk.Entry(self, show="*", font=("Helvetica", 12))
+
+        self.login_button = tk.Button(self, text="Login", command=self.on_login, bg="#2196F3", fg="white", font=("Helvetica", 12))
+
+    def layout_widgets(self):
+        self.username_label.grid(row=0, column=0, padx=10, pady=5, sticky="w")
+        self.username_entry.grid(row=0, column=1, padx=10, pady=5, sticky="we")
+
+        self.password_label.grid(row=1, column=0, padx=10, pady=5, sticky="w")
+        self.password_entry.grid(row=1, column=1, padx=10, pady=5, sticky="we")
+
+        self.login_button.grid(row=2, column=0, columnspan=2, padx=50, pady=10, sticky="we")
+
+    def on_login(self):
+        username = self.username_entry.get()
+        password = self.password_entry.get()
+
+        if username == "" and password == "":
+            messagebox.showinfo("Success", "Logged in successfully!")
+            self.hide_login_form()
+            self.start_game()
+        else:
+            messagebox.showerror("Error", "Invalid username or password")
+
+    def start_game(self):
+        if __name__ == '__main__':
+            vi = VirusInvasion()
+            vi.run_game()
+
+    def hide_login_form(self):
+        self.username_label.grid_forget()
+        self.username_entry.grid_forget()
+        self.password_label.grid_forget()
+        self.password_entry.grid_forget()
+
+    def close_window(self):
+        self.destroy()
+
+if __name__ == "__main__":
+    app = LoginForm()
+    app.mainloop()
